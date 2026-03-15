@@ -1,31 +1,24 @@
 # Student Result Management System
 
-A full-stack web application to manage student records, academic results, and subject details — built with Django and Python.
+Hey there! This is a simple Django project I made to manage student results. It lets you add students, manage subjects, and enter marks for different semesters. There's also a public page where students can check their results using their roll number.
 
 ## Screenshots
 
-> Dashboard, student list, result entry, and public result lookup views.
+![Login Page](screenshots/login.png)
+![Dashboard](screenshots/dashboard.png)
+![Student List](screenshots/student_list.png)
+![Public Result Lookup](screenshots/public_result.png)
 
-## Tech Stack
+## What's inside
 
-| Layer     | Technology                        |
-|-----------|-----------------------------------|
-| Frontend  | HTML5, CSS3, Bootstrap, JavaScript |
-| Backend   | Python 3.12, Django 5.1           |
-| Database  | SQLite3 (easily switchable to MySQL) |
-| Auth      | Django built-in authentication    |
-| Tools     | Postman, Git, VS Code             |
+I used standard web tech for the frontend (HTML, CSS, Bootstrap, JS) and Django/Python for the backend. The database is SQLite by default, so it's really easy to run without any weird setup.
 
-## Features
-
-- Role-based access control — Admin login with protected dashboard
-- Student CRUD — Add, view, edit, delete student records
-- Student photo upload and profile display
-- Subject management
-- Result entry with grade and marks per subject per semester
-- Public result lookup — Students can check results by roll number
-- Search and filter students by name or department
-- Django Admin panel for backend management
+Main features:
+- Admin dashboard to manage everything securely
+- Add, edit, or delete student info (with profile pictures!)
+- Manage subjects and enter grades
+- Public result checking page for the students
+- Search and filter tools
 
 ## Project Structure
 
@@ -33,70 +26,72 @@ A full-stack web application to manage student records, academic results, and su
 student-result-management/
 ├── core/
 │   ├── manage.py
+│   ├── create_superuser.py
+│   ├── populate_dummy_data.py
 │   └── core/
 │       ├── settings.py
 │       ├── urls.py
 │       ├── wsgi.py
 │       └── asgi.py
 ├── results/
-│   ├── models.py       # Student, Subject, Result models
-│   ├── views.py        # All CRUD and auth views
-│   ├── urls.py         # URL routing
-│   ├── admin.py        # Admin panel config
+│   ├── models.py
+│   ├── views.py
+│   ├── urls.py
+│   ├── admin.py
+│   ├── apps.py
 │   └── templates/
-│       └── results/    # HTML templates
+│       └── results/
+│           ├── login.html
+│           ├── dashboard.html
+│           ├── student_list.html
+│           ├── student_form.html
+│           ├── result_list.html
+│           ├── result_form.html
+│           └── view_result.html
 ├── templates/
+│   ├── base.html
 │   └── static/
-│       ├── css/
-│       └── js/
+│       ├── css/style.css
+│       └── js/script.js
+├── screenshots/
 ├── requirements.txt
-└── .gitignore
+├── .gitignore
+└── README.md
 ```
 
-## Setup and Run Locally (Windows CMD)
+## How to run it on your machine
 
-**1. Clone the repository (or navigate to your project folder)**
-```cmd
-cd path\to\your\student-result-management
-cd core
-```
+1. Clone this repo to your PC.
+2. Open CMD or your terminal and go into the `core` folder inside the project.
+3. It's usually a good idea to create a virtual environment:
+   ```cmd
+   python -m venv env
+   env\Scripts\activate
+   ```
+4. Install the required packages:
+   ```cmd
+   pip install -r ..\requirements.txt
+   pip install Pillow
+   ```
+5. Set up the database and create your admin account:
+   ```cmd
+   python manage.py makemigrations
+   python manage.py migrate
+   python manage.py createsuperuser
+   ```
+6. Finally, start it up:
+   ```cmd
+   python manage.py runserver
+   ```
+   Now you can open `http://127.0.0.1:8000` in your browser.
 
-**2. Create and activate the virtual environment**
-```cmd
-python -m venv env
-env\Scripts\activate
-```
-*(You will know it is activated when you see `(env)` at the beginning of your CMD prompt).*
+## Pushing to GitHub
 
-**3. Install dependencies**
-```cmd
-pip install -r ..\requirements.txt
-pip install Pillow
-```
-
-**4. Run migrations & Create Admin**
-```cmd
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser
-```
-*(Follow the prompt to set your admin username and password).*
-
-**5. Start the server**
-```cmd
-python manage.py runserver
-```
-Visit: `http://127.0.0.1:8000`
-
----
-
-## How to Push to GitHub
-
-Once you are completely done with all local changes, run these exact commands in CMD from the absolute root of your project:
+If you want to push your own copy, you can just do the usual git commands from the project root folder:
 
 ```cmd
 git add .
-git commit -m "Complete professional frontend UI redesign with Bootstrap"
+git commit -m "Update stuff"
 git branch -M main
 git push -u origin main
 ```
@@ -104,6 +99,6 @@ git push -u origin main
 ## Developer
 
 **Rupesh K**
-- GitHub: [github.com/Rupeshkummari](https://github.com/Rupeshkummari)
-- LinkedIn: [linkedin.com/in/kummari-rupesh-76325a251](https://linkedin.com/in/kummari-rupesh-76325a251)
-- Email: rupeshkummari223@gmail.com
+- GitHub: [Rupeshkummari](https://github.com/Rupeshkummari)
+- LinkedIn: [kummari-rupesh-76325a251](https://linkedin.com/in/kummari-rupesh-76325a251)
+- Drop an email: rupeshkummari223@gmail.com
