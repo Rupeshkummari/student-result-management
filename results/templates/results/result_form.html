@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}{{ action }} Result | SRMS{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+    <h2 class="mb-0 text-dark"><i class="fa-solid fa-file-circle-plus me-2 text-primary"></i> {{ action }} Result</h2>
+    <a href="{% url 'result_list' %}" class="btn btn-outline-secondary shadow-sm">
+        <i class="fa-solid fa-arrow-left me-1"></i> Back to Results
+    </a>
+</div>
+
+<div class="row justify-content-center fade-in">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3 border-bottom">
+                <h5 class="mb-0 text-muted">Academic Result Details</h5>
+            </div>
+            <div class="card-body p-4 p-md-5">
+                <form method="POST" class="needs-validation">
+                    {% csrf_token %}
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Select Student</label>
+                        <select class="form-select form-select-lg" name="student" required>
+                            <option value="" selected disabled>Choose a student...</option>
+                            {% for student in students %}
+                                <option value="{{ student.pk }}">{{ student.name }} ({{ student.roll_no }}) - {{ student.department }}</option>
+                            {% endfor %}
+                        </select>
+                        {% if not students %}
+                            <div class="form-text text-danger mt-2"><i class="fa-solid fa-triangle-exclamation"></i> No students available. <a href="{% url 'student_add' %}">Add a student first.</a></div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4 pb-4 border-bottom">
+                        <label class="form-label fw-bold">Select Subject</label>
+                        <select class="form-select form-select-lg" name="subject" required>
+                            <option value="" selected disabled>Choose a subject...</option>
+                            {% for subject in subjects %}
+                                <option value="{{ subject.pk }}">{{ subject.name }} ({{ subject.code }})</option>
+                            {% endfor %}
+                        </select>
+                        {% if not subjects %}
+                            <div class="form-text text-danger mt-2"><i class="fa-solid fa-triangle-exclamation"></i> No subjects available in the database. Please add them via Django Admin.</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Semester</label>
+                            <select class="form-select" name="semester" required>
+                                <option value="" selected disabled>Select Semester</option>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                                <option value="4">Semester 4</option>
+                                <option value="5">Semester 5</option>
+                                <option value="6">Semester 6</option>
+                                <option value="7">Semester 7</option>
+                                <option value="8">Semester 8</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Exam Year/Month</label>
+                            <input type="text" class="form-control" name="exam_year" required placeholder="e.g. May 2024">
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4 align-items-end">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Marks Obtained</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="fa-solid fa-calculator text-muted"></i></span>
+                                <input type="number" class="form-control" name="marks" required min="0" max="100" placeholder="0-100">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Grade</label>
+                            <select class="form-select" name="grade" required>
+                                <option value="" selected disabled>Select Grade</option>
+                                <option value="O">O (Outstanding)</option>
+                                <option value="A+">A+ (Excellent)</option>
+                                <option value="A">A (Very Good)</option>
+                                <option value="B+">B+ (Good)</option>
+                                <option value="B">B (Above Average)</option>
+                                <option value="C">C (Average)</option>
+                                <option value="P">P (Pass)</option>
+                                <option value="F">F (Fail)</option>
+                                <option value="Ab">Ab (Absent)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-5">
+                        <a href="{% url 'result_list' %}" class="btn btn-light px-4">Cancel</a>
+                        <button type="submit" class="btn btn-primary px-5 shadow-sm btn-lg">
+                            <i class="fa-solid fa-paper-plane me-2"></i> Publish Result
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

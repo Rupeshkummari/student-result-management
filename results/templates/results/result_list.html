@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Manage Results | SRMS{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+    <h2 class="mb-0 text-dark"><i class="fa-solid fa-award me-2 text-primary"></i> Manage Results</h2>
+    <a href="{% url 'result_add' %}" class="btn btn-primary shadow-sm">
+        <i class="fa-solid fa-plus-circle me-1"></i> Add Result
+    </a>
+</div>
+
+<!-- Results Table -->
+<div class="card shadow-sm border-0 fade-in">
+    <div class="card-header bg-white py-3">
+        <div class="input-group shadow-sm w-auto" style="max-width: 300px;">
+            <span class="input-group-text bg-white border-end-0 text-muted"><i class="fa-solid fa-search"></i></span>
+            <input type="text" id="tableSearch" class="form-control border-start-0 ps-0" placeholder="Search results...">
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle" id="dataTable">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Student</th>
+                        <th>Subject</th>
+                        <th>Sem/Year</th>
+                        <th class="text-center">Marks</th>
+                        <th class="text-center">Grade</th>
+                        <th class="text-end pe-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                    <tr>
+                        <td class="ps-4">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <h6 class="mb-0 fw-semibold">{{ result.student.name }}</h6>
+                                    <small class="text-muted">{{ result.student.roll_no }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column">
+                                <span class="fw-medium text-dark">{{ result.subject.name }}</span>
+                                <small class="text-muted">Code: {{ result.subject.code }}</small>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark border"><i class="fa-solid fa-book-open me-1"></i>Sem {{ result.semester }}</span>
+                            <div class="small text-muted mt-1">{{ result.exam_year }}</div>
+                        </td>
+                        <td class="text-center fw-bold fs-5">{{ result.marks }}</td>
+                        <td class="text-center">
+                            {% if result.grade == 'A' or result.grade == 'A+' or result.grade == 'O' %}
+                                <span class="badge bg-success grade-badge">{{ result.grade }}</span>
+                            {% elif result.grade == 'F' %}
+                                <span class="badge bg-danger grade-badge">{{ result.grade }}</span>
+                            {% else %}
+                                <span class="badge bg-primary grade-badge">{{ result.grade }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end pe-4">
+                            <form action="{% url 'result_delete' result.pk %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger btn-delete shadow-sm" title="Delete Result">
+                                    <i class="fa-solid fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5 text-muted">
+                            <div class="my-4">
+                                <i class="fa-solid fa-file-excel fs-1 text-light mb-3"></i>
+                                <h5>No results added yet</h5>
+                                <a href="{% url 'result_add' %}" class="btn btn-primary mt-2">Publish First Result</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
